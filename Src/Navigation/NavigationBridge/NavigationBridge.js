@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React,{useContext} from "react";
 import { AppNavigation } from "../AppNavigation/AppNavigation";
 import { AccountNavigation } from "../AccountNavigation/AccountNavigation";
 

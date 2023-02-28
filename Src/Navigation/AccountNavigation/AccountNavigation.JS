@@ -2,7 +2,6 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Number } from "../../Features/Account/Number";
 import { ConfirmNumber } from "../../Features/Account/ConfirmNumber";
-import { Email } from "../../Features/Account/Email";
 import { UserName } from "../../Features/Account/UserName";
 
 const Stack = createStackNavigator();
@@ -17,11 +16,6 @@ export const AccountNavigation = () => {
       <Stack.Screen
         name="ConfirmNumber"
         component={ConfirmNumber}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Email"
-        component={Email}
         options={{ headerShown: false }}
       />
       <Stack.Screen

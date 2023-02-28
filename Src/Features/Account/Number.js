@@ -34,12 +34,15 @@ export const Number = () => {
       </View>
       <View style={Styles.textView}>
         <Text style={Styles.text}>
-          By proceeding, you agree to the guidelines and{" "}
+          By proceeding, you agree to the guidelines and
         </Text>
         <Text style={Styles.privacyText}>Privacy Policy </Text>
       </View>
       <View style={Styles.buttonView}>
-        <ButtonComponent text={"Accept & continue"} iconValue={"camera"} />
+        <ButtonComponent
+          text={"Accept & continue"}
+          iconValue={"step-forward-2"}
+        />
       </View>
     </View>
   );
@@ -59,7 +62,7 @@ const Styles = StyleSheet.create({
   },
   privacyText: {
     color: "#000080",
-    fontSize:15
+    fontSize: 15,
   },
   inputContainer: {
     marginTop: 120,

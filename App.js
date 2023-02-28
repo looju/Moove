@@ -11,6 +11,7 @@ import {
   BebasNeue_400Regular,
 } from "@expo-google-fonts/dev";
 import { NavigationBridge } from "./Src/Navigation/NavigationBridge/NavigationBridge";
+import { UserDataProvider } from "./Src/Services/UserData";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,7 +27,9 @@ export default function App() {
   } else {
     return (
       <NavigationContainer>
-       <NavigationBridge/>
+        <UserDataProvider>
+          <NavigationBridge />
+        </UserDataProvider>
       </NavigationContainer>
     );
   }
