@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   useFonts,
   Oswald_400Regular,
@@ -8,38 +8,35 @@ import {
   Griffy_400Regular,
   Tangerine_400Regular,
   Arizonia_400Regular,
-  BebasNeue_400Regular
+  BebasNeue_400Regular,
 } from "@expo-google-fonts/dev";
+import { NavigationBridge } from "./Src/Navigation/NavigationBridge/NavigationBridge";
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     Oswald_400Regular,
     Anton_400Regular,
     BebasNeue_400Regular,
     Tangerine_400Regular,
-    Lato_400Regular
+    Lato_400Regular,
   });
 
-  if (!fontsLoaded){
-    return null
-  }
-
-  else{
+  if (!fontsLoaded) {
+    return null;
+  } else {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    )
+      <NavigationContainer>
+       <NavigationBridge/>
+      </NavigationContainer>
+    );
   }
- 
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
