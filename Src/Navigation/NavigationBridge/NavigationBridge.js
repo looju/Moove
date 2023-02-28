@@ -4,6 +4,6 @@ import { AppNavigation } from "../AppNavigation/AppNavigation";
 import { AccountNavigation } from "../AccountNavigation/AccountNavigation";
 
 export const NavigationBridge = () => {
-  let user = true;
-  return user ? <AppNavigation /> : <AccountNavigation />;
+  let user = false;
+  return user ? <AppNavigation /> : <AccountNavigation />
 };

@@ -1,15 +1,32 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { SplashScreen } from "./../../Features/Account/SplashScreen";
+import { Number } from "../../Features/Account/Number";
+import { ConfirmNumber } from "../../Features/Account/ConfirmNumber";
+import { Email } from "../../Features/Account/Email";
+import { UserName } from "../../Features/Account/UserName";
 
 const Stack = createStackNavigator();
 export const AccountNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Splash"
-        component={SplashScreen}
+        name="Number"
+        component={Number}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ConfirmNumber"
+        component={ConfirmNumber}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Email"
+        component={Email}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserName"
+        component={UserName}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

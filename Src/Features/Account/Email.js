@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export const SplashScreen = () => {
+export const Email = () => {
   return (
     <View>
-      <Text>SplashScreen</Text>
+      <Text>Email</Text>
     </View>
   )
 }
