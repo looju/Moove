@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ButtonComponent } from "../../Components/Button";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState ,useRef} from "react";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 import Animated, {
@@ -22,9 +22,27 @@ import Animated, {
   SlideOutLeft,
   Layout
 } from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import {firebaseConfig} from "../../Services/Config/Config"
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+import {auth} from "../../Services/Config/Config"
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel } = useContext(UserData);
+  const { setUserTel, userTel,setVerificationId} = useContext(UserData);
+  
+  const recaptchaVerifier = useRef(null);
+
+
+  const sendVerification = async (number) => {
+    const phoneProvider = new PhoneAuthProvider(auth);
+    const verificationId = await phoneProvider.verifyPhoneNumber(
+      number,
+      recaptchaVerifier.current
+    );
+    setVerificationId(verificationId);
+    navigation.navigate("ConfirmNumber")
+  };
 
   return (
     <View style={Styles.container}>
@@ -36,7 +54,10 @@ export const Number = ({ navigation }) => {
       >
         <Text style={Styles.text}>Enter your phone number</Text>
       </Animated.View>
-
+      <FirebaseRecaptchaVerifierModal
+        ref={recaptchaVerifier}
+        firebaseConfig={firebaseConfig}
+      />
       <View style={Styles.inputContainer}>
         <Animated.View
           style={Styles.inputView}
