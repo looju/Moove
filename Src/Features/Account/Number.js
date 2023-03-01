@@ -1,8 +1,15 @@
 import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
 import { ButtonComponent } from "../../Components/Button";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { UserData } from "../../Services/UserData";
+import { Button } from "react-native-paper";
 
-export const Number = () => {
+export const Number = ({navigation}) => {
+  const { setUserTel, userTel } = useContext(UserData);
+
+
+
+
   return (
     <View style={Styles.container}>
       <View style={Styles.textView}>
@@ -23,11 +30,12 @@ export const Number = () => {
         <View style={Styles.fullInputView}>
           <TextInput
             label="Email"
-            value={"+234"}
-            editable={false}
+            value={userTel}
             underlineColorAndroid="#000080"
             textAlign="center"
-            readOnly={true}
+            selectionColor="#fff"
+            keyboardType="number-pad"
+            onChangeText={(text) => setUserTel(text)}
             style={{ color: "#fff" }}
           />
         </View>
@@ -39,10 +47,16 @@ export const Number = () => {
         <Text style={Styles.privacyText}>Privacy Policy </Text>
       </View>
       <View style={Styles.buttonView}>
-        <ButtonComponent
-          text={"Accept & continue"}
-          iconValue={"step-forward-2"}
-        />
+        <Button
+          icon="step-forward-2"
+          mode="contained"
+          dark={true}
+          buttonColor="#000080"
+          style={{ width: "60%", left: "20%" }}
+          onPress={()=>navigation.navigate("ConfirmNumber")}
+        >
+          Accept & continue
+        </Button>
       </View>
     </View>
   );
