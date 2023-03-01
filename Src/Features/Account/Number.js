@@ -7,8 +7,7 @@ import {
   Linking,
   TouchableOpacity,
 } from "react-native";
-import { ButtonComponent } from "../../Components/Button";
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 import Animated, {
@@ -29,9 +28,9 @@ import { PhoneAuthProvider } from "firebase/auth";
 import { auth } from "../../Services/Config/Config";
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel, setVerificationId } = useContext(UserData);
-
+  const { setUserTel, userTel, setVerificationId, userData, setUserData } = useContext(UserData);
   const recaptchaVerifier = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const sendVerification = async (number) => {
     const phoneProvider = new PhoneAuthProvider(auth);
@@ -41,13 +40,28 @@ export const Number = ({ navigation }) => {
     );
     setVerificationId(verificationId);
     try {
-      const jsonValue = JSON.stringify(userCredential);
+      const jsonValue = JSON.stringify(userTel); //save phone number once verification code has been sent
       await AsyncStorage.setItem("userPhoneNum", jsonValue);
     } catch (e) {
       console.log("problem storing user's phone number " + e);
     }
     navigation.navigate("ConfirmNumber");
   };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("userPhoneNum");
+      jsonValue != null
+        ? setUserData(JSON.parse(jsonValue)).then(setLoading(true))
+        : null;
+    } catch (e) {
+      console.log("problem loading user's phone number  " + e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <View style={Styles.container}>

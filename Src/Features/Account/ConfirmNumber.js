@@ -25,6 +25,8 @@ import Animated, {
   StretchInX,
   Layout,
 } from "react-native-reanimated";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+import { auth } from "../../Services/Config/Config";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 
@@ -36,7 +38,24 @@ export const ConfirmNumber = ({ navigation }) => {
     value,
     setValue,
   });
-  const { setUserTel, userTel } = useContext(UserData);
+  const { setUserTel, userTel,setUserData,verificationId } = useContext(UserData);
+
+
+
+  
+  const confirmCode = async (code) => {
+    const credential = PhoneAuthProvider.credential(verificationId, code);
+    const userCredential = await signInWithCredential(auth, credential);
+    setUserData(userCredential);
+    try {
+      const jsonValue = JSON.stringify(userTel); //save phone number once verification code has been sent
+      await AsyncStorage.setItem("userPhoneNum", jsonValue);
+    } catch (e) {
+      console.log("problem storing user's phone number " + e);
+    }
+    navigation.navigate("UserName");
+  };
+
 
   return (
     <View style={Styles.container}>
