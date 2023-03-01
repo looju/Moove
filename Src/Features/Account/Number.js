@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ButtonComponent } from "../../Components/Button";
-import React, { useContext, useState ,useRef} from "react";
+import React, { useContext, useState, useRef } from "react";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 import Animated, {
@@ -20,19 +20,18 @@ import Animated, {
   SlideInRight,
   SlideInDown,
   SlideOutLeft,
-  Layout
+  Layout,
 } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import {firebaseConfig} from "../../Services/Config/Config"
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
-import {auth} from "../../Services/Config/Config"
+import { firebaseConfig } from "../../Services/Config/Config";
+import { PhoneAuthProvider } from "firebase/auth";
+import { auth } from "../../Services/Config/Config";
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel,setVerificationId} = useContext(UserData);
-  
-  const recaptchaVerifier = useRef(null);
+  const { setUserTel, userTel, setVerificationId } = useContext(UserData);
 
+  const recaptchaVerifier = useRef(null);
 
   const sendVerification = async (number) => {
     const phoneProvider = new PhoneAuthProvider(auth);
@@ -41,7 +40,13 @@ export const Number = ({ navigation }) => {
       recaptchaVerifier.current
     );
     setVerificationId(verificationId);
-    navigation.navigate("ConfirmNumber")
+    try {
+      const jsonValue = JSON.stringify(userCredential);
+      await AsyncStorage.setItem("userPhoneNum", jsonValue);
+    } catch (e) {
+      console.log("problem storing user's phone number " + e);
+    }
+    navigation.navigate("ConfirmNumber");
   };
 
   return (
@@ -116,7 +121,7 @@ export const Number = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={() => navigation.navigate("ConfirmNumber")}
+          onPress={() => sendVerification("+234" + userTel)}
         >
           Accept & continue
         </Button>
