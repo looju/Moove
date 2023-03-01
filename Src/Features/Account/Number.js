@@ -16,9 +16,11 @@ import Animated, {
   BounceOutUp,
   FadeIn,
   FadeOut,
-  SlideInUp,
+  SlideOutDown,
   SlideInRight,
   SlideInDown,
+  SlideOutLeft,
+  Layout
 } from "react-native-reanimated";
 
 export const Number = ({ navigation }) => {
@@ -30,6 +32,7 @@ export const Number = ({ navigation }) => {
         style={Styles.textView}
         entering={BounceInDown.duration(2500)}
         exiting={BounceOutUp.duration(2000)}
+        layout={Layout.springify()}
       >
         <Text style={Styles.text}>Enter your phone number</Text>
       </Animated.View>
@@ -39,6 +42,7 @@ export const Number = ({ navigation }) => {
           style={Styles.inputView}
           entering={FadeIn.duration(2500).springify()}
           exiting={FadeOut.duration(1500)}
+          layout={Layout.springify()}
         >
           <TextInput
             label="Email"
@@ -66,6 +70,8 @@ export const Number = ({ navigation }) => {
       <Animated.View
         style={Styles.textView}
         entering={SlideInRight.duration(2500)}
+        exiting={SlideOutLeft.duration(2500)}
+        layout={Layout.springify()}
       >
         <Text style={Styles.text}>
           By proceeding, you agree to the guidelines and
@@ -81,6 +87,7 @@ export const Number = ({ navigation }) => {
       <Animated.View
         style={Styles.buttonView}
         entering={SlideInDown.duration(2500)}
+        exiting={SlideOutDown.duration(2500)}
       >
         <Button
           icon="step-forward-2"

@@ -14,6 +14,16 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
+import Animated, {
+  BounceInDown,
+  BounceOutUp,
+  SlideOutLeft,
+  SlideInRight,
+  SlideInDown,
+  StretchInY,
+  StretchInX,
+  Layout,
+} from "react-native-reanimated";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 
@@ -29,11 +39,24 @@ export const ConfirmNumber = ({ navigation }) => {
 
   return (
     <View style={Styles.container}>
-      <View style={Styles.headerView}>
+      <Animated.View
+        style={Styles.headerView}
+        entering={BounceInDown.duration(2500)}
+        exiting={BounceOutUp.duration(2000)}
+        layout={Layout.springify()}
+      >
         <Text style={Styles.text}>A code has been sent to </Text>
         <Text style={Styles.userTel}> +234{userTel} </Text>
-      </View>
-      <View style={Styles.inputContainer}>
+      </Animated.View>
+      <Animated.View
+        style={Styles.inputContainer}
+        entering={StretchInY.duration(2500)
+          .stiffness(300)
+          .mass(2.5)
+          .springify()}
+        exiting={StretchInX.duration(2500).stiffness(300).mass(2.5).springify()}
+        layout={Layout.springify()}
+      >
         <CodeField
           ref={ref}
           {...props}
@@ -53,14 +76,24 @@ export const ConfirmNumber = ({ navigation }) => {
             </Text>
           )}
         />
-      </View>
-      <TouchableOpacity
+      </Animated.View>
+      <Animated.View
         style={Styles.textView}
-        onPress={() => navigation.goBack()}
+        entering={SlideInRight.duration(2500)}
+        exiting={SlideOutLeft.duration(2500)}
+        layout={Layout.springify()}
       >
-        <Text style={Styles.privacyText}>Change phone number</Text>
-      </TouchableOpacity>
-      <View style={Styles.buttonView}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={Styles.privacyText}>Change phone number</Text>
+        </TouchableOpacity>
+      </Animated.View>
+
+      <Animated.View
+        style={Styles.buttonView}
+        entering={SlideInDown.duration(2500)}
+        exiting={SlideOutDown.duration(2500)}
+        layout={Layout.springify()}
+      >
         <Button
           icon="step-forward-2"
           mode="contained"
@@ -71,7 +104,7 @@ export const ConfirmNumber = ({ navigation }) => {
         >
           Next
         </Button>
-      </View>
+      </Animated.View>
     </View>
   );
 };
