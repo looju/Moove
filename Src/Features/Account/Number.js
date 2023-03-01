@@ -39,12 +39,7 @@ export const Number = ({ navigation }) => {
       recaptchaVerifier.current
     );
     setVerificationId(verificationId);
-    try {
-      const jsonValue = JSON.stringify(userTel); //save phone number once verification code has been sent
-      await AsyncStorage.setItem("userPhoneNum", jsonValue);
-    } catch (e) {
-      console.log("problem storing user's phone number " + e);
-    }
+  
     navigation.navigate("ConfirmNumber");
   };
 
@@ -52,7 +47,7 @@ export const Number = ({ navigation }) => {
     try {
       const jsonValue = await AsyncStorage.getItem("userPhoneNum");
       jsonValue != null
-        ? setUserData(JSON.parse(jsonValue)).then(setLoading(true))
+        ? setUserTel(JSON.parse(jsonValue)).then(setLoading(true))
         : null;
     } catch (e) {
       console.log("problem loading user's phone number  " + e);

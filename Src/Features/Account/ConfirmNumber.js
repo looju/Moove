@@ -34,11 +34,13 @@ export const ConfirmNumber = ({ navigation }) => {
   const CELL_COUNT = 6;
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [value, setValue] = useState("");
+  const { setUserTel, userTel,setUserData,verificationId } = useContext(UserData);
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
-  const { setUserTel, userTel,setUserData,verificationId } = useContext(UserData);
+ 
+
 
 
 
@@ -48,7 +50,7 @@ export const ConfirmNumber = ({ navigation }) => {
     const userCredential = await signInWithCredential(auth, credential);
     setUserData(userCredential);
     try {
-      const jsonValue = JSON.stringify(userTel); //save phone number once verification code has been sent
+      const jsonValue = JSON.stringify(userTel); //save phone number once verification code has been confirmed
       await AsyncStorage.setItem("userPhoneNum", jsonValue);
     } catch (e) {
       console.log("problem storing user's phone number " + e);
@@ -120,9 +122,9 @@ export const ConfirmNumber = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={() => navigation.navigate("ConfirmNumber")}
+          onPress={() => confirmCode(value)}
         >
-          Next
+        Confirm my number
         </Button>
       </Animated.View>
     </View>

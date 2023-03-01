@@ -6,7 +6,7 @@ import { UserData } from './../../Services/UserData';
 
 export const NavigationBridge = () => {
 
-const {userData}=useContext(UserData)
+const {setUserTel}=useContext(UserData)
 
-  return userData ? <AppNavigation /> : <AccountNavigation />
+  return setUserTel ? <AppNavigation /> : <AccountNavigation />
 };
