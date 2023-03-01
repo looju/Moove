@@ -19,6 +19,7 @@ import Animated, {
   BounceOutUp,
   SlideOutLeft,
   SlideInRight,
+  SlideOutDown,
   SlideInDown,
   StretchInY,
   StretchInX,
