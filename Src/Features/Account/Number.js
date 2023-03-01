@@ -28,9 +28,14 @@ import { PhoneAuthProvider } from "firebase/auth";
 import { auth } from "../../Services/Config/Config";
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel, setVerificationId, userData, setUserData } = useContext(UserData);
+  const { setUserTel, userTel, setVerificationId, userData, setUserData } =
+    useContext(UserData);
   const recaptchaVerifier = useRef(null);
   const [loading, setLoading] = useState(false);
+
+  const phoneNumber="+234"+ userTel
+
+
 
   const sendVerification = async (number) => {
     const phoneProvider = new PhoneAuthProvider(auth);
@@ -39,7 +44,6 @@ export const Number = ({ navigation }) => {
       recaptchaVerifier.current
     );
     setVerificationId(verificationId);
-  
     navigation.navigate("ConfirmNumber");
   };
 
@@ -47,7 +51,7 @@ export const Number = ({ navigation }) => {
     try {
       const jsonValue = await AsyncStorage.getItem("userPhoneNum");
       jsonValue != null
-        ? setUserTel(JSON.parse(jsonValue)).then(setLoading(true))
+        ? setUserVerifiedNumber(JSON.parse(jsonValue)).then(setLoading(true))
         : null;
     } catch (e) {
       console.log("problem loading user's phone number  " + e);
@@ -130,7 +134,7 @@ export const Number = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={() => sendVerification("+234" + userTel)}
+          onPress={() => sendVerification(phoneNumber)}
         >
           Accept & continue
         </Button>

@@ -7,6 +7,7 @@ export const UserDataProvider = ({ children }) => {
   const [userTel, setUserTel] = useState(null);
   const [userName, setUserName] = useState("");
   const [userData, setUserData] = useState(null);
+  const [userVerifiedNumber,setUserVerifiedNumber] = useState(null);
 
   return (
     <UserData.Provider
@@ -19,6 +20,8 @@ export const UserDataProvider = ({ children }) => {
         setVerificationId,
         userData,
         setUserData,
+        userVerifiedNumber,
+        setUserVerifiedNumber
       }}
     >
       {children}
