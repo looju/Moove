@@ -6,6 +6,7 @@ import {
   TextInput,
   Linking,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserData } from "../../Services/UserData";
@@ -33,9 +34,7 @@ export const Number = ({ navigation }) => {
   const recaptchaVerifier = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  const phoneNumber="+234"+ userTel
-
-
+  const phoneNumber = "+234" + userTel;
 
   const sendVerification = async (number) => {
     const phoneProvider = new PhoneAuthProvider(auth);
@@ -139,6 +138,16 @@ export const Number = ({ navigation }) => {
           Accept & continue
         </Button>
       </Animated.View>
+      {loading && (
+        <Animated.View
+          style={Styles.indicator}
+          entering={FadeIn.duration(2500)}
+          exiting={FadeOut.duration(2500)}
+          layout={Layout.springify()}
+        >
+          <ActivityIndicator size={25} color="#000080" />
+        </Animated.View>
+      )}
     </View>
   );
 };
@@ -173,5 +182,17 @@ const Styles = StyleSheet.create({
   },
   buttonView: {
     marginTop: Dimensions.get("screen").height * 0.15,
+  },
+  indicator: {
+    marginTop: 80,
+  },
+  indicatorTextView: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  indicatorText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "100",
   },
 });
