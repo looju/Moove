@@ -102,7 +102,7 @@ const Styles = StyleSheet.create({
     fontSize: 15,
   },
   inputContainer: {
-    marginTop: 120,
+    marginTop: 60,
     flexDirection: "row",
     justifyContent: "center",
   },

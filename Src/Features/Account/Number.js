@@ -11,17 +11,35 @@ import { ButtonComponent } from "../../Components/Button";
 import React, { useContext, useState } from "react";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
+import Animated, {
+  BounceInDown,
+  BounceOutUp,
+  FadeIn,
+  FadeOut,
+  SlideInUp,
+  SlideInRight,
+  SlideInDown,
+} from "react-native-reanimated";
 
 export const Number = ({ navigation }) => {
   const { setUserTel, userTel } = useContext(UserData);
 
   return (
     <View style={Styles.container}>
-      <View style={Styles.textView}>
+      <Animated.View
+        style={Styles.textView}
+        entering={BounceInDown.duration(2500)}
+        exiting={BounceOutUp.duration(2000)}
+      >
         <Text style={Styles.text}>Enter your phone number</Text>
-      </View>
+      </Animated.View>
+
       <View style={Styles.inputContainer}>
-        <View style={Styles.inputView}>
+        <Animated.View
+          style={Styles.inputView}
+          entering={FadeIn.duration(2500).springify()}
+          exiting={FadeOut.duration(1500)}
+        >
           <TextInput
             label="Email"
             value={"+234"}
@@ -31,7 +49,7 @@ export const Number = ({ navigation }) => {
             readOnly={true}
             style={{ color: "#fff" }}
           />
-        </View>
+        </Animated.View>
         <View style={Styles.fullInputView}>
           <TextInput
             label="Email"
@@ -45,7 +63,10 @@ export const Number = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={Styles.textView}>
+      <Animated.View
+        style={Styles.textView}
+        entering={SlideInRight.duration(2500)}
+      >
         <Text style={Styles.text}>
           By proceeding, you agree to the guidelines and
         </Text>
@@ -56,8 +77,11 @@ export const Number = ({ navigation }) => {
         >
           <Text style={Styles.privacyText}>Privacy Policy</Text>
         </TouchableOpacity>
-      </View>
-      <View style={Styles.buttonView}>
+      </Animated.View>
+      <Animated.View
+        style={Styles.buttonView}
+        entering={SlideInDown.duration(2500)}
+      >
         <Button
           icon="step-forward-2"
           mode="contained"
@@ -68,7 +92,7 @@ export const Number = ({ navigation }) => {
         >
           Accept & continue
         </Button>
-      </View>
+      </Animated.View>
     </View>
   );
 };
