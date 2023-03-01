@@ -1,14 +1,19 @@
-import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TextInput,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import { ButtonComponent } from "../../Components/Button";
 import React, { useContext, useState } from "react";
 import { UserData } from "../../Services/UserData";
 import { Button } from "react-native-paper";
 
-export const Number = ({navigation}) => {
+export const Number = ({ navigation }) => {
   const { setUserTel, userTel } = useContext(UserData);
-
-
-
 
   return (
     <View style={Styles.container}>
@@ -44,7 +49,13 @@ export const Number = ({navigation}) => {
         <Text style={Styles.text}>
           By proceeding, you agree to the guidelines and
         </Text>
-        <Text style={Styles.privacyText}>Privacy Policy </Text>
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL("https://loremipsum.io/privacy-policy/")
+          }
+        >
+          <Text style={Styles.privacyText}>Privacy Policy</Text>
+        </TouchableOpacity>
       </View>
       <View style={Styles.buttonView}>
         <Button
@@ -53,7 +64,7 @@ export const Number = ({navigation}) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={()=>navigation.navigate("ConfirmNumber")}
+          onPress={() => navigation.navigate("ConfirmNumber")}
         >
           Accept & continue
         </Button>

@@ -20,6 +20,7 @@ import { Button } from "react-native-paper";
 export const ConfirmNumber = ({ navigation }) => {
   const CELL_COUNT = 6;
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
+  const [value, setValue] = useState("");
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -30,14 +31,14 @@ export const ConfirmNumber = ({ navigation }) => {
     <View style={Styles.container}>
       <View style={Styles.headerView}>
         <Text style={Styles.text}>A code has been sent to </Text>
-        <Text style={Styles.text}>{userTel} </Text>
+        <Text style={Styles.userTel}> +234{userTel} </Text>
       </View>
       <View style={Styles.inputContainer}>
         <CodeField
           ref={ref}
           {...props}
-          // value={value}
-          // onChangeText={(text) => setValue(text)}
+          value={value}
+          onChangeText={(text) => setValue(text)}
           cellCount={CELL_COUNT}
           rootStyle={Styles.codeFieldRoot}
           keyboardType="number-pad"
@@ -92,6 +93,10 @@ const Styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
+  userTel: {
+    fontWeight: "bold",
+    color: "#fff",
+  },
   privacyText: {
     color: "#000080",
     fontSize: 15,
@@ -113,13 +118,15 @@ const Styles = StyleSheet.create({
   },
   cell: {
     width: 40,
-    height: 40,
+    height: 70,
     lineHeight: 38,
     fontSize: 24,
     borderWidth: 2,
-    borderColor: "#000080",
+    borderColor: "#fff",
     textAlign: "center",
-    borderRadius: 5,
+    backgroundColor: "	#36454F",
+    borderRadius: 10,
+    marginHorizontal: 10,
   },
   focusCell: {
     borderColor: "#000",
