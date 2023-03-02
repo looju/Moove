@@ -16,12 +16,14 @@ import Animated, {
   SlideOutDown,
   SlideInDown,
   Layout,
+  FadeIn,
 } from "react-native-reanimated";
 import { UserData } from "../../Services/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserName = () => {
   const { setUserName, userName } = useContext(UserData);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const SaveUserNameLocally = async (value) => {
     try {
@@ -61,10 +63,19 @@ export const UserName = () => {
             autoComplete="username"
             onChangeText={(text) => setUserName(text)}
             onSubmitEditing={SaveUserNameLocally(userName)}
+            onEndEditing={SaveUserNameLocally(userName)}
             style={{ color: "#fff" }}
           />
         </View>
       </View>
+      {errorMessage && (
+        <Animated.View
+          style={Styles.errorView}
+          entering={FadeIn.duration(2500)}
+        >
+          <Text style={Styles.errorText}>You have to enter a username</Text>
+        </Animated.View>
+      )}
       <Animated.View
         style={Styles.buttonView}
         entering={SlideInDown.duration(2500)}
@@ -77,7 +88,11 @@ export const UserName = () => {
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
           // onPress={() => sendVerification(phoneNumber)}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() =>
+            userName.length > 0
+              ? navigation.navigate("Home")
+              : setErrorMessage(true)
+          }
         >
           Let's Moove!
         </Button>
@@ -133,5 +148,12 @@ const Styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "100",
+  },
+  errorView: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  errorText: {
+    color: "#ff0000",
   },
 });

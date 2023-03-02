@@ -134,7 +134,11 @@ export const Number = ({ navigation }) => {
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
           // onPress={() => sendVerification(phoneNumber)}
-          onPress={()=>navigation.navigate("ConfirmNumber")}
+          onPress={() =>
+            userTel.length == 10
+              ? navigation.navigate("ConfirmNumber")
+              : setErrorMessage(true)
+          }
         >
           Accept & continue
         </Button>
