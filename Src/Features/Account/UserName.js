@@ -23,15 +23,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserName = ({ navigation }) => {
   const { setUserName, userName } = useContext(UserData);
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const [disabled,setDisabled]=useState(true)
+  const [disabled, setDisabled] = useState(true);
 
   const SaveUserNameLocally = async (value) => {
-    setDisabled(true)
+    setDisabled(true);
     try {
-      await AsyncStorage.setItem("userName", value)
-      setDisabled(false)
-      console.log("saved")
+      await AsyncStorage.setItem("userName", value);
+      setDisabled(false);
+      console.log("saved");
     } catch (e) {
       console.log("Error saving username locally" + e);
     }
@@ -40,7 +41,9 @@ export const UserName = ({ navigation }) => {
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("userPhoneNum");
-      jsonValue != null ? setUserVerifiedNumber(JSON.parse(jsonValue)) : null;
+      jsonValue != null
+        ? setUserVerifiedNumber(JSON.parse(jsonValue)).then(setLoading(true))
+        : null;
     } catch (e) {
       console.log("problem loading user's phone number  " + e);
     }
@@ -76,7 +79,7 @@ export const UserName = ({ navigation }) => {
             autoComplete="username"
             maxLength={15}
             onChangeText={(text) => setUserName(text)}
-            onEndEditing={()=>SaveUserNameLocally(userName)}
+            onEndEditing={() => SaveUserNameLocally(userName)}
             style={{ color: "#fff" }}
           />
         </View>
@@ -107,6 +110,16 @@ export const UserName = ({ navigation }) => {
         >
           Let's Moove!
         </Button>
+        {loading && (
+          <Animated.View
+            style={Styles.indicator}
+            entering={FadeIn.duration(2500)}
+            exiting={FadeOut.duration(2500)}
+            layout={Layout.springify()}
+          >
+            <ActivityIndicator size={25} color="#000080" />
+          </Animated.View>
+        )}
       </Animated.View>
     </View>
   );
@@ -166,5 +179,8 @@ const Styles = StyleSheet.create({
   },
   errorText: {
     color: "#ff0000",
+  },
+  indicator: {
+    marginTop: 80,
   },
 });
