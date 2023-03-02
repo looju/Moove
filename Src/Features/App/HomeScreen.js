@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import React, { useState, useEffect } from "react";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 
 export const HomeScreen = () => {
@@ -12,37 +12,41 @@ export const HomeScreen = () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
-        console.log("permission denied")
+        console.log("permission denied");
         return;
       }
-
-      let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
+      let userlocation = await Location.getLastKnownPositionAsync({
+        maxAge: 20000,
       });
-      setLocation(location);
+      setLocation(userlocation);
     })();
   }, []);
 
   return (
     <View style={Styles.container}>
       <MapView
-        initialRegion={{
+        provider={PROVIDER_GOOGLE}
+        region={{
           latitude: 37.78825,
           longitude: -122.4324,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        style={Styles.container}
+        style={{ width: "100%", height: "100%" }}
+        liteMode
+        userLocationUpdateInterval={4000}
+        showsBuildings={true}
+        showsTraffic={true}
       />
-      <Text style={Styles.text}>HomeScreen</Text>
     </View>
   );
 };
 
 const Styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#000",
+    ...StyleSheet.absoluteFillObject,
+    height: Dimensions.get("screen").height,
+    width: Dimensions.get("screen").width,
   },
   text: {
     color: "#fff",
