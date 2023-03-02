@@ -4,11 +4,10 @@ import {
   StyleSheet,
   Dimensions,
   TextInput,
-  Linking,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React, { useContext, useState } from "react";
+import TypeWriter from "react-native-typewriter";
 import { Button } from "react-native-paper";
 import Animated, {
   RollInLeft,
@@ -22,7 +21,7 @@ import { UserData } from "../../Services/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserName = ({ navigation }) => {
-  const { setUserName, userName } = useContext(UserData);
+  const { setUserName, userName, setUserVerifiedNumber } = useContext(UserData);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -42,7 +41,7 @@ export const UserName = ({ navigation }) => {
     try {
       const jsonValue = await AsyncStorage.getItem("userPhoneNum");
       jsonValue != null
-        ? setUserVerifiedNumber(JSON.parse(jsonValue)).then(setLoading(true))
+        ? setUserVerifiedNumber(JSON.parse(jsonValue))
         : null;
     } catch (e) {
       console.log("problem loading user's phone number  " + e);
@@ -57,7 +56,14 @@ export const UserName = ({ navigation }) => {
         exiting={BounceOutUp.duration(2000)}
         layout={Layout.springify()}
       >
-        <Text style={Styles.largeText}>Great!</Text>
+        <TypeWriter
+          style={Styles.largeText}
+          typing={1}
+          minDelay={50}
+          initialDelay={2500}
+        >
+          Great!
+        </TypeWriter>
       </Animated.View>
       <Animated.View
         style={Styles.textView}
@@ -65,7 +71,14 @@ export const UserName = ({ navigation }) => {
         exiting={BounceOutUp.duration(2000)}
         layout={Layout.springify()}
       >
-        <Text style={Styles.text}>Enter a username</Text>
+        <TypeWriter
+          style={Styles.text}
+          typing={1}
+          minDelay={100}
+          initialDelay={3000}
+        >
+          Enter a username
+        </TypeWriter>
       </Animated.View>
       <View style={Styles.inputContainer}>
         <View style={Styles.fullInputView}>
@@ -79,7 +92,7 @@ export const UserName = ({ navigation }) => {
             autoComplete="username"
             maxLength={15}
             onChangeText={(text) => setUserName(text)}
-            onEndEditing={() => SaveUserNameLocally(userName)}
+            onSubmitEditing={() => SaveUserNameLocally(userName)}
             style={{ color: "#fff" }}
           />
         </View>
@@ -128,7 +141,7 @@ export const UserName = ({ navigation }) => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0,0.87)",
+    backgroundColor: "#152238",
   },
   textView: {
     marginTop: 25,

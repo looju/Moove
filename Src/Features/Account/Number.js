@@ -29,7 +29,8 @@ import { PhoneAuthProvider } from "firebase/auth";
 import { auth } from "../../Services/Config/Config";
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel, setVerificationId } = useContext(UserData);
+  const { setUserTel, userTel, setVerificationId, setUserVerifiedNumber } =
+    useContext(UserData);
   const recaptchaVerifier = useRef(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -42,6 +43,7 @@ export const Number = ({ navigation }) => {
       number,
       recaptchaVerifier.current
     );
+    console.log("verification sent");
     setVerificationId(verificationId);
     navigation.navigate("ConfirmNumber");
   };
@@ -50,7 +52,7 @@ export const Number = ({ navigation }) => {
     try {
       const jsonValue = await AsyncStorage.getItem("userPhoneNum");
       jsonValue != null
-        ? setUserVerifiedNumber(JSON.parse(jsonValue)).then(setLoading(true))
+        ? setUserVerifiedNumber(JSON.parse(jsonValue))
         : null;
     } catch (e) {
       console.log("problem loading user's phone number  " + e);
@@ -80,7 +82,9 @@ export const Number = ({ navigation }) => {
           style={Styles.errorView}
           entering={FadeIn.duration(2500)}
         >
-          <Text style={Styles.errorText}>Invalid phone number. Cross check the number</Text>
+          <Text style={Styles.errorText}>
+            Invalid phone number. Cross check the number
+          </Text>
         </Animated.View>
       )}
       <View style={Styles.inputContainer}>
@@ -141,10 +145,9 @@ export const Number = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          // onPress={() => sendVerification(phoneNumber)}
           onPress={() =>
-            userTel.length == 10 
-              ? navigation.navigate("ConfirmNumber")
+            userTel.length == 10
+              ? sendVerification(phoneNumber)
               : setErrorMessage(true)
           }
         >
@@ -168,7 +171,7 @@ export const Number = ({ navigation }) => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0,0.87)",
+    backgroundColor: "#152238",
   },
   textView: {
     marginTop: 25,
@@ -211,7 +214,7 @@ const Styles = StyleSheet.create({
   errorView: {
     alignItems: "center",
     justifyContent: "center",
-    top:60
+    top: 60,
   },
   errorText: {
     color: "#ff0000",

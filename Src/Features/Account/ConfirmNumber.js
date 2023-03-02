@@ -6,8 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { ButtonComponent } from "../../Components/General/Button";
 import React, { useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   CodeField,
   Cursor,
@@ -117,7 +117,6 @@ export const ConfirmNumber = ({ navigation }) => {
         </TouchableOpacity>
       </Animated.View>
 
-
       <Animated.View
         style={Styles.buttonView}
         entering={SlideInDown.duration(2500)}
@@ -130,11 +129,8 @@ export const ConfirmNumber = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          // onPress={() => confirmCode(value)}
           onPress={() =>
-            value.length == 6
-              ? navigation.navigate("UserName")
-              : setErrorMessage(true)
+            value.length == 6 ? confirmCode(value) : setErrorMessage(true)
           }
         >
           Confirm my number
@@ -147,10 +143,10 @@ export const ConfirmNumber = ({ navigation }) => {
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0,0.87)",
+    backgroundColor: "#152238",
   },
   headerView: {
-    marginTop: 25,
+    marginTop: 35,
     marginLeft: 15,
   },
   textView: {
@@ -195,7 +191,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "	#36454F",
     borderRadius: 10,
     marginHorizontal: 10,
-    color:"#fff"
+    color: "#fff",
   },
   focusCell: {
     borderColor: "#000",
@@ -206,7 +202,7 @@ const Styles = StyleSheet.create({
   errorView: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop:10
+    marginTop: 10,
   },
   errorText: {
     color: "#ff0000",
