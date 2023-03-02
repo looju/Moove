@@ -1,10 +1,19 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { createStackNavigator } from "@react-navigation/stack";
+import { HomeScreen } from './../../Features/App/HomeScreen';
 
+
+
+const Stack = createStackNavigator();
 export const AppNavigation = () => {
+
   return (
-    <View>
-      <Text>AppNavigation</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   )
 }

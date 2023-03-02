@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { ButtonComponent } from "../../Components/Button";
+import { ButtonComponent } from "../../Components/General/Button";
 import React, { useContext, useState } from "react";
 import {
   CodeField,

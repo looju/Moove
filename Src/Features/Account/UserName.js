@@ -13,19 +13,23 @@ import { Button } from "react-native-paper";
 import Animated, {
   RollInLeft,
   BounceOutUp,
-  BounceInUp,
-  FadeIn,
-  FadeOut,
   SlideOutDown,
-  SlideInRight,
   SlideInDown,
-  SlideOutLeft,
   Layout,
 } from "react-native-reanimated";
 import { UserData } from "../../Services/UserData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserName = () => {
   const { setUserName, userName } = useContext(UserData);
+
+  const SaveUserNameLocally = async (value) => {
+    try {
+      await AsyncStorage.setItem("userName", value);
+    } catch (e) {
+      console.log("Error saving username locally" + e);
+    }
+  };
 
   return (
     <View style={Styles.container}>
@@ -56,6 +60,7 @@ export const UserName = () => {
             keyboardType="default"
             autoComplete="username"
             onChangeText={(text) => setUserName(text)}
+            onSubmitEditing={SaveUserNameLocally(userName)}
             style={{ color: "#fff" }}
           />
         </View>
@@ -72,9 +77,9 @@ export const UserName = () => {
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
           // onPress={() => sendVerification(phoneNumber)}
-          onPress={() => navigation.navigate("ConfirmNumber")}
+          onPress={() => navigation.navigate("Home")}
         >
-          Accept & continue
+          Let's Moove!
         </Button>
       </Animated.View>
     </View>
