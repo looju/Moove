@@ -102,7 +102,7 @@ export const ConfirmNumber = ({ navigation }) => {
           style={Styles.errorView}
           entering={FadeIn.duration(2500)}
         >
-          <Text style={Styles.errorText}>Enter the 6-digit code sent to your device</Text>
+          <Text style={Styles.errorText}>Incomplete verification code. </Text>
         </Animated.View>
       )}
 
@@ -195,6 +195,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "	#36454F",
     borderRadius: 10,
     marginHorizontal: 10,
+    color:"#fff"
   },
   focusCell: {
     borderColor: "#000",

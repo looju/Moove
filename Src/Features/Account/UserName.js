@@ -21,15 +21,28 @@ import Animated, {
 import { UserData } from "../../Services/UserData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const UserName = () => {
+export const UserName = ({ navigation }) => {
   const { setUserName, userName } = useContext(UserData);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [disabled,setDisabled]=useState(true)
 
   const SaveUserNameLocally = async (value) => {
+    setDisabled(true)
     try {
-      await AsyncStorage.setItem("userName", value);
+      await AsyncStorage.setItem("userName", value)
+      setDisabled(false)
+      console.log("saved")
     } catch (e) {
       console.log("Error saving username locally" + e);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("userPhoneNum");
+      jsonValue != null ? setUserVerifiedNumber(JSON.parse(jsonValue)) : null;
+    } catch (e) {
+      console.log("problem loading user's phone number  " + e);
     }
   };
 
@@ -61,9 +74,9 @@ export const UserName = () => {
             selectionColor="#fff"
             keyboardType="default"
             autoComplete="username"
+            maxLength={15}
             onChangeText={(text) => setUserName(text)}
-            onSubmitEditing={SaveUserNameLocally(userName)}
-            onEndEditing={SaveUserNameLocally(userName)}
+            onEndEditing={()=>SaveUserNameLocally(userName)}
             style={{ color: "#fff" }}
           />
         </View>
@@ -85,13 +98,11 @@ export const UserName = () => {
           icon="step-forward-2"
           mode="contained"
           dark={true}
+          disabled={disabled}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          // onPress={() => sendVerification(phoneNumber)}
           onPress={() =>
-            userName.length > 0
-              ? navigation.navigate("Home")
-              : setErrorMessage(true)
+            userName.length > 0 ? getData() : setErrorMessage(true)
           }
         >
           Let's Moove!
