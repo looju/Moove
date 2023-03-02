@@ -15,6 +15,7 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import Animated, {
+  FadeIn,
   BounceInDown,
   BounceOutUp,
   SlideOutLeft,
@@ -34,17 +35,14 @@ export const ConfirmNumber = ({ navigation }) => {
   const CELL_COUNT = 6;
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [value, setValue] = useState("");
-  const { setUserTel, userTel,setUserData,verificationId } = useContext(UserData);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const { setUserTel, userTel, setUserData, verificationId } =
+    useContext(UserData);
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
- 
 
-
-
-
-  
   const confirmCode = async (code) => {
     const credential = PhoneAuthProvider.credential(verificationId, code);
     const userCredential = await signInWithCredential(auth, credential);
@@ -57,7 +55,6 @@ export const ConfirmNumber = ({ navigation }) => {
     }
     navigation.navigate("UserName");
   };
-
 
   return (
     <View style={Styles.container}>
@@ -99,6 +96,16 @@ export const ConfirmNumber = ({ navigation }) => {
           )}
         />
       </Animated.View>
+
+      {errorMessage && (
+        <Animated.View
+          style={Styles.errorView}
+          entering={FadeIn.duration(2500)}
+        >
+          <Text style={Styles.errorText}>Enter the 6-digit code sent to your device</Text>
+        </Animated.View>
+      )}
+
       <Animated.View
         style={Styles.textView}
         entering={SlideInRight.duration(2500)}
@@ -109,6 +116,7 @@ export const ConfirmNumber = ({ navigation }) => {
           <Text style={Styles.privacyText}>Change phone number</Text>
         </TouchableOpacity>
       </Animated.View>
+
 
       <Animated.View
         style={Styles.buttonView}
@@ -123,9 +131,13 @@ export const ConfirmNumber = ({ navigation }) => {
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
           // onPress={() => confirmCode(value)}
-          onPress={()=>navigation.navigate("UserName")}
+          onPress={() =>
+            value.length == 6
+              ? navigation.navigate("UserName")
+              : setErrorMessage(true)
+          }
         >
-        Confirm my number
+          Confirm my number
         </Button>
       </Animated.View>
     </View>
@@ -170,7 +182,7 @@ const Styles = StyleSheet.create({
     flex: 0.9,
   },
   buttonView: {
-    marginTop: Dimensions.get("screen").height * 0.15,
+    marginTop: Dimensions.get("screen").height * 0.1,
   },
   cell: {
     width: 40,
@@ -189,5 +201,13 @@ const Styles = StyleSheet.create({
   },
   codeFieldRoot: {
     marginTop: 20,
+  },
+  errorView: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop:10
+  },
+  errorText: {
+    color: "#ff0000",
   },
 });

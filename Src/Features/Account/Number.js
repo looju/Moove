@@ -29,10 +29,10 @@ import { PhoneAuthProvider } from "firebase/auth";
 import { auth } from "../../Services/Config/Config";
 
 export const Number = ({ navigation }) => {
-  const { setUserTel, userTel, setVerificationId, userData, setUserData } =
-    useContext(UserData);
+  const { setUserTel, userTel, setVerificationId } = useContext(UserData);
   const recaptchaVerifier = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const phoneNumber = "+234" + userTel;
 
@@ -75,6 +75,14 @@ export const Number = ({ navigation }) => {
         ref={recaptchaVerifier}
         firebaseConfig={firebaseConfig}
       />
+      {errorMessage && (
+        <Animated.View
+          style={Styles.errorView}
+          entering={FadeIn.duration(2500)}
+        >
+          <Text style={Styles.errorText}>Invalid phone number. Cross check the number</Text>
+        </Animated.View>
+      )}
       <View style={Styles.inputContainer}>
         <Animated.View
           style={Styles.inputView}
@@ -135,7 +143,7 @@ export const Number = ({ navigation }) => {
           style={{ width: "60%", left: "20%" }}
           // onPress={() => sendVerification(phoneNumber)}
           onPress={() =>
-            userTel.length == 10
+            userTel.length == 10 
               ? navigation.navigate("ConfirmNumber")
               : setErrorMessage(true)
           }
@@ -199,5 +207,13 @@ const Styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "100",
+  },
+  errorView: {
+    alignItems: "center",
+    justifyContent: "center",
+    top:60
+  },
+  errorText: {
+    color: "#ff0000",
   },
 });
