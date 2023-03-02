@@ -133,7 +133,8 @@ export const Number = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={() => sendVerification(phoneNumber)}
+          // onPress={() => sendVerification(phoneNumber)}
+          onPress={()=>navigation.navigate("ConfirmNumber")}
         >
           Accept & continue
         </Button>

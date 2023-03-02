@@ -122,7 +122,8 @@ export const ConfirmNumber = ({ navigation }) => {
           dark={true}
           buttonColor="#000080"
           style={{ width: "60%", left: "20%" }}
-          onPress={() => confirmCode(value)}
+          // onPress={() => confirmCode(value)}
+          onPress={()=>navigation.navigate("UserName")}
         >
         Confirm my number
         </Button>
